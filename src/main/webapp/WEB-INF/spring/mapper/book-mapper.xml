@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.biz.rbooks.repository.BooksDao">
+ 
+  	<select id="proTotalCount" resultType="Long">
+		SELECT COUNT(*) FROM tbl_books
+		<where>
+			<foreach collection="b_name" item="b_name" separator="OR">
+				b_name LIKE '%' || #{b_name, jdbcType=VARCHAR} || '%'
+			</foreach>
+		</where>
+	</select>
+
+	<select id="findByBNameListAndPagiNation" resultType="booksVO">
+		SELECT * FROM
+		(
+		    SELECT /*+ FIRST_ROWS_100 */ ROWNUM AS NUM, IP.* FROM
+		    (
+		        SELECT /*+ INDEX_DESC(P) */ * FROM tbl_books P 
+		        <where>
+					<foreach collection="b_name" item="b_name" separator="OR">
+						b_name LIKE '%' || #{b_name, jdbcType=VARCHAR} || '%'
+					</foreach>
+		        </where>
+		    ) IP
+		    WHERE ROWNUM &lt;= #{pageVO.limit} 
+		) TBL
+		WHERE NUM &gt;= #{pageVO.offset}
+	</select>
+
+ 	<select id="findByBNames" resultType="booksVO">
+ 		SELECT * FROM tbl_books
+ 		<if test="#{names != null}">
+	 		<where>
+		 		<foreach collection="names" item="bVO" separator="OR">
+		 			b_name Like '%' ||  #{bVO} || '%'
+		 		</foreach>
+		 	</where>
+	 	</if>
+ 	</select>
+ 	
+ 	<select id="getMaxBCode" resultType="String">
+  		SELECT MAX(b_code) FROM tbl_books
+  	</select>
+ 	
+ 	<insert id="insert" parameterType="booksVO">
+	 	INSERT INTO tbl_books (
+	 		b_code,
+			b_name,
+			b_comp,
+			b_auther,
+			b_year,
+			b_iprice
+		) VALUES (
+			#{b_code, jdbcType = VARCHAR},
+			#{b_name, jdbcType = VARCHAR},
+			#{b_comp, jdbcType = VARCHAR},
+			#{b_auther, jdbcType = VARCHAR},
+			#{b_year, jdbcType = VARCHAR},
+			#{b_iprice}
+		)
+ 	</insert>
+ 	
+ 	<update id="update" parameterType="booksVO">
+ 		UPDATE tbl_books
+ 		SET
+			b_name = #{b_name},
+			b_auther = #{b_auther},
+			b_comp = #{b_comp},
+			b_year = #{b_year},
+			b_iprice = #{b_iprice}
+		WHERE b_code = #{b_code}
+ 	</update>
+ 
+ </mapper> 

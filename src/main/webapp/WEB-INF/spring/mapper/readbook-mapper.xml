@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.biz.rbooks.repository.ReadBookDao">
+ 
+ 	<select id="proTotalCount" resultType="Long">
+		SELECT COUNT(*) FROM tbl_read_book 
+		<where>
+			<foreach collection="rb_subject" item="rb_subject" separator="OR">
+				rb_subject LIKE '%' || #{rb_subject, jdbcType=VARCHAR} || '%'
+			</foreach>
+		</where>
+		ORDER BY rb_date DESC, rb_stime DESC
+	</select>
+
+	<select id="findByRbSubjectListAndPagiNation" resultType="rbVO">
+		SELECT * FROM
+		(
+		    SELECT /*+ FIRST_ROWS_100 */ ROWNUM AS NUM, IP.* FROM
+		    (
+		        SELECT /*+ INDEX_DESC(P) */ * FROM (
+		        	SELECT 
+					 	RB_SEQ,
+						RB_BCODE,
+						B.B_NAME AS RB_BNAME,
+						RB_DATE,
+						RB_STIME,
+						RB_RTIME,
+						RB_SUBJECT,
+						RB_TEXT,
+						RB_STAR
+					FROM tbl_read_book R, tbl_books B
+					WHERE R.rb_bcode = B.b_code
+		        )
+		        <where>
+					<foreach collection="rb_subject" item="rb_subject" separator="OR">
+						rb_subject LIKE '%' || #{rb_subject, jdbcType=VARCHAR} || '%'
+					</foreach>
+		        </where>
+		    ) IP
+		    WHERE ROWNUM &lt;= #{pageVO.limit} 
+		) TBL
+		WHERE NUM &gt;= #{pageVO.offset}
+		ORDER BY rb_date DESC, rb_stime DESC
+	</select>
+
+ 	<select id="selectAll" resultType="rbVO">
+		 SELECT 
+		 	RB_SEQ,
+			RB_BCODE,
+			B.B_NAME AS RB_BNAME,
+			RB_DATE,
+			RB_STIME,
+			RB_RTIME,
+			RB_SUBJECT,
+			RB_TEXT,
+			RB_STAR
+		FROM tbl_read_book R, tbl_books B
+		WHERE R.rb_bcode = B.b_code
+		ORDER BY rb_date DESC, rb_stime DESC
+ 	</select>
+ 	
+ 	<select id="findBySeq" resultType="rbVO">
+		SELECT 
+			RB_SEQ,
+			RB_BCODE,
+			B.B_NAME AS RB_BNAME,
+			RB_DATE,
+			RB_STIME,
+			RB_RTIME,
+			RB_SUBJECT,
+			RB_TEXT,
+			RB_STAR
+		FROM tbl_read_book R, tbl_books B
+		WHERE R.rb_bcode = B.b_code AND R.rb_seq = #{rb_seq}
+ 	</select>
+
+ 	<select id="findByBCode" resultType="rbVO">
+		SELECT 
+			RB_SEQ,
+			RB_BCODE,
+			B.B_NAME AS RB_BNAME,
+			RB_DATE,
+			RB_STIME,
+			RB_RTIME,
+			RB_SUBJECT,
+			RB_TEXT,
+			RB_STAR
+		FROM tbl_read_book R, tbl_books B
+		WHERE R.rb_bcode = #{b_code, jdbcType = VARCHAR}
+			AND R.rb_bcode = B.b_code
+ 	</select>
+
+ 	<insert id="insert" parameterType="rbVO">
+	 	INSERT INTO tbl_read_book(
+			RB_SEQ,
+			RB_BCODE,
+			RB_DATE,
+			RB_STIME,
+			RB_RTIME,
+			RB_SUBJECT,
+			RB_TEXT,
+			RB_STAR
+		) VALUES (
+			SEQ_RBOOKS.NEXTVAL,
+			#{rb_bcode, jdbcType = VARCHAR},
+			#{rb_date, jdbcType = VARCHAR},
+			#{rb_stime, jdbcType = VARCHAR},
+			#{rb_rtime, jdbcType = VARCHAR},
+			#{rb_subject, jdbcType = VARCHAR},
+			#{rb_text, jdbcType = VARCHAR},
+			#{rb_star, jdbcType = VARCHAR}
+		)
+ 	</insert>
+
+ </mapper> 
