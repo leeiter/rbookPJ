@@ -13,13 +13,6 @@ public class PageService {
 	private int listPerPage = 10;
 	private int pageCount = 5;
 
-//	public void setListPerPage(int listPerPage) {
-//		this.listPerPage = listPerPage;
-//	}
-//	public void setPageCount(int pageCount) {
-//		this.pageCount = pageCount;
-//	}
-	
 	public PageVO getPagination(long totalCount, int currentPageNo) {
 		
 		if(totalCount < 1) {

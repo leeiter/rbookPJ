@@ -23,5 +23,6 @@
 	
 	<context:component-scan base-package="com.biz.rbooks.controller" />
 	<context:component-scan base-package="com.biz.rbooks.service" />
+	<context:component-scan base-package="com.biz.rbooks.interceptor" />
 	
 </beans:beans>

@@ -17,7 +17,9 @@ import com.biz.rbooks.service.BooksService;
 import com.biz.rbooks.service.PageService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping(value = "/book")
 @Controller
@@ -36,8 +38,12 @@ public class BooksController {
 			@RequestParam(value="search", required = false,defaultValue = "") String b_name,
 			@RequestParam(value="currentPageNo", required = false,defaultValue = "1") int currentPageNo) {
 		long totalCount = bService.totalCount(b_name);
-		PageVO pageVO = pService.getPagination(totalCount, currentPageNo);
 		
+		if(totalCount == 0) {
+			return null;
+		}
+		
+		PageVO pageVO = pService.getPagination(totalCount, currentPageNo);
 		List<BooksVO> bList = bService.findByBNameListAndPagiNation(b_name, pageVO);
 		
 		model.addAttribute("pageVO", pageVO);
@@ -69,7 +75,8 @@ public class BooksController {
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public String input(@ModelAttribute BooksVO booksVO) {
+	public String input(@ModelAttribute("booksVO") BooksVO booksVO) {
+		// log.debug("save controller" + booksVO.toString());
 		bService.save(booksVO);
 		return "redirect:/book/list";
 	}

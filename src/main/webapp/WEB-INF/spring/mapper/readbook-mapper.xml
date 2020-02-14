@@ -12,7 +12,6 @@
 				rb_subject LIKE '%' || #{rb_subject, jdbcType=VARCHAR} || '%'
 			</foreach>
 		</where>
-		ORDER BY rb_date DESC, rb_stime DESC
 	</select>
 
 	<select id="findByRbSubjectListAndPagiNation" resultType="rbVO">

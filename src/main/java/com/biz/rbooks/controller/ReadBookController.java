@@ -38,18 +38,22 @@ public class ReadBookController {
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public String list(Model model,
-			@RequestParam(value="search", required = false,defaultValue = "") String rb_subject,
-			@RequestParam(value="currentPageNo", required = false,defaultValue = "1") int currentPageNo) {
+			@RequestParam(value = "search", required = false, defaultValue = "") String rb_subject,
+			@RequestParam(value = "currentPageNo", required = false, defaultValue = "1") int currentPageNo) {
 		long totalCount = rbService.totalCount(rb_subject);
-		PageVO pageVO = pService.getPagination(totalCount, currentPageNo);
 		
+		if(totalCount == 0) {
+			return null;
+		}
+		
+		PageVO pageVO = pService.getPagination(totalCount, currentPageNo);
 		List<ReadBookVO> rbList = rbService.findByRbSubjectListAndPagiNation(rb_subject, pageVO);
 		
 		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("url","list");
 		model.addAttribute("search", rb_subject);
 		model.addAttribute("RBLIST", rbList);
-		
+	
 		return "rbook/list";
 	}
 	

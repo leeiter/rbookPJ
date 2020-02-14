@@ -39,6 +39,10 @@ $(function() {
 				<%@ include file="/WEB-INF/views/rbook/view.jsp"%>
 			</c:when>
 			<c:otherwise>
+				<form>
+					<input type="search" name="search" value="${search}" class="form-control mb-2 mr-sm-2 col-4 subject-search" 
+							placeholder="검색 : 한줄소감을 입력한 후 Enter...">
+				</form>
 				<%@ include file="/WEB-INF/views/rbook/list-body.jsp"%>
 				<%@ include file="/WEB-INF/views/rbook/pagination.jsp"%>
 				<div class="text-center">

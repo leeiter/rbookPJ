@@ -49,7 +49,7 @@ $(function(){
 	<c:choose>
 		<c:when test="${empty BLIST}">
 			<tr>
-				<td>도서가 없습니다.</td>
+				<td colspan="6">도서가 없습니다.</td>
 			</tr>
 		</c:when>
 		<c:otherwise>

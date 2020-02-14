@@ -23,5 +23,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.0/jquery.contextMenu.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.9.0/jquery.ui.position.min.js"></script>	
 
-<link rel="stylesheet" href="${rootPath}/resources/css/home.css?ver=200208003">
-<link rel="stylesheet" href="${rootPath}/resources/css/modal.css?ver=200208002">
+<link rel="stylesheet" href="${rootPath}/resources/css/home.css?ver=200208004">
+<link rel="stylesheet" href="${rootPath}/resources/css/modal.css?ver=200208003">

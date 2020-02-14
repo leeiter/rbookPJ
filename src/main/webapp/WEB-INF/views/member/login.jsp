@@ -18,39 +18,45 @@
 <script>
 $(function(){
 		
-		$("#btn-join").click(function(){
-			document.location.href="${rootPath}/member/join"
-		})
-			
-		$("#btn-login").click(function(){
-			
-			// 유효성 검사
-			// id, password가 입력되지 않았을 때 경고
-			let u_id = $("#u_id").val()
-			if(u_id == ""){
-				alert("아이디를 입력하세요")
-				$("#u_id").focus
-				return false
-			}
-			
-			var params = $("form").serialize();
-			$.ajax({
-				url : "${rootPath}/member/login",
-				type : 'POST',
-				data: params,
-				success:function(result){
-					if(result == "LOGIN_OK"){
-						document.location.href="${rootPath}/"
-					}
-					 
+	$("#btn-join").click(function(){
+		document.location.href="${rootPath}/member/join"
+	})
+	
+	$("#btn-login").click(function(){
+		let m_id = $("#m_id")
+		let m_password = $("#m_password")
+		
+		if(m_id.val() == "") {
+			alert("아이디를 입력하세요")
+			m_id.focus()
+			return false;
+		}
+		
+		if(m_password.val() == "") {
+			alert("비밀번호를 입력하세요")
+			m_password.focus()
+			return false;
+		}
+		
+		var params = $("form").serialize();
+		$.ajax({
+			url : "${rootPath}/member/login",
+			type : 'POST',
+			data : params,
+			success : function(result) {
+				if(result == "LOGIN_OK") {
+					document.location.href = "${rootPath}/rbook/list"
+				} else {
+					alret("로그인이 되지 않았습니다.")
 				}
-			})
-			
+			},
+			error : function() {
+				alert("서버와 통신 오류")
+				
+			}
 		})
-		
-		
-		
-		
+	})
+	
 })
 </script>
 </head>
@@ -62,17 +68,18 @@ $(function(){
 	<br>
 	<div class="text-center">
 		<h3>LOGIN</h3>
+		<br>
 		<form method="POST" action="${rootPath}/member/login">
 			<c:if test="${LOGIN_MSG == 'FAIL'}">
-				<h4>아이디 혹은 비밀번호를 다시 확인하시고 입력해주세요</h4>
+				<h5>아이디 혹은 비밀번호를 다시 확인하시고 입력해주세요</h5>
 			</c:if>
 	
 			<c:if test="${LOGIN_MSG == 'TRY'}">
-				<h4>login required</h4>
+				<h5>login required</h5>
 			</c:if>
 			
 			<c:if test="${LOGIN_MSG == 'NO_AUTH'}">
-				<h4>작성자만이 볼 수 있음!!</h4>
+				<h5>작성자만이 볼 수 있음!!</h5>
 			</c:if>
 		
 			<div class="form-group">
@@ -81,7 +88,7 @@ $(function(){
 			<div class="form-group">
       			<input type="password" id="m_password" name="m_password" class="form-control col-3 login-from" placeholder="YOUR PASSWORD">
 			</div>
-			<button type="button" class="btn btn-primary" id="btn-login">SIGN IN</button>
+			<button type="submit" class="btn btn-primary" id="btn-login">SIGN IN</button>
 			<button type="button" class="btn btn-success" id="btn-join">SIGN UP</button>
 		</form>
 	</div>

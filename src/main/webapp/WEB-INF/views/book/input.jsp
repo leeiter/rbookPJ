@@ -63,10 +63,7 @@ $(function(){
 </script>
 
 <form:form action="${rootPath}/book/save" modelAttribute="booksVO">
-
-	<div class="form-group">
-		<form:input class="form-control" path="b_code" placeholder="도서코드( - 없이 숫자로만 입력하세요.)" />
-	</div>
+	<form:input type="hidden" path="b_code" placeholder="도서코드" />
 	
 	<div class="form-group">
 		<form:input class="form-control" path="b_name" placeholder="도서명" />

@@ -8,11 +8,6 @@
 }
 </style>
 
-<form>
-	<input type="search" name="search" value="${search}" class="form-control mb-2 mr-sm-2 col-4 subject-search" 
-			placeholder="검색 : 한줄소감을 입력한 후 Enter...">
-</form>
-
 <table class="table table-hover small text-center rblist">
 	<tr>
 		<th>사용자ID</th>
@@ -27,7 +22,7 @@
 	<c:choose>
 		<c:when test="${empty RBLIST}">
 			<tr>
-				<td>독서록이 없습니다.</td>
+				<td colspan="8">독서록이 없습니다.</td>
 			</tr>
 		</c:when>
 		<c:otherwise>
@@ -39,7 +34,7 @@
 					<td>${RBOOK.rb_date}</td>
 					<td>${RBOOK.rb_stime}</td>
 					<td>${RBOOK.rb_rtime}</td>
-					<td>${RBOOK.rb_subject}</td>
+					<td class="rb_subject">${RBOOK.rb_subject}</td>
 					<td>${RBOOK.rb_star}</td>
 				</tr>
 			</c:forEach>
