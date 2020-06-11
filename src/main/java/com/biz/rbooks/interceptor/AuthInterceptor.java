@@ -25,7 +25,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		// 1. Session정보 뽑기 
 		HttpSession httpSession = request.getSession();
 		
-		// 2. member session 을 추출해서 sessionObj객체에 담아줌
+		// 2. member session 을 추출해서 sessionObj 객체에 담아줌
 		Object sessionObj = httpSession.getAttribute("MEMBER");
 		
 		// 3. login이 안되어있으면

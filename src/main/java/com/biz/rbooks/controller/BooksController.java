@@ -33,6 +33,19 @@ public class BooksController {
 		return new BooksVO();
 	}
 	
+	
+	/*
+	 * @RequestParam(value="search", required = false,defaultValue = "") String b_name,
+	 * @RequestParam : 단일 파라메터(매개변수)를 전달 받을 때 사용
+	 * value="search" 매개변수 이름
+	 * required = false 해당 파라미터가 반드시 필수인지 여부, 기본값은 true, 해당 키값이 존재 하지 않으면 null
+	 * defaultValue = "" 해당 파라미터의 기본값
+	 * 
+	 * equals() : 객체 비교 method
+	 * 객체 비교 메서드(Method) 이다.
+	 * 두 객체의 값이 같은지 확인한다.
+	 * 즉, 문자열의 데이터/내용을 기반으로 비교한다. 
+	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public String list(Model model,
 			@RequestParam(value="search", required = false,defaultValue = "") String b_name,
